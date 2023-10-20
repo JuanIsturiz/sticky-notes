@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "notes.apps.NotesConfig",
     "rest_framework",
+    "rest_framework.authtoken",
     "corsheaders",
 ]
 

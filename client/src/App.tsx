@@ -14,6 +14,8 @@ import UserProfilePage from "./pages/UserProfilePage";
 import NotesPage from "./pages/NotesPage";
 import SignInPage from "./pages/SignInPage";
 import SignUpPage from "./pages/SignUpPage";
+import UserContextProvider from "./contexts/user-context";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   const { pathname } = useLocation();
@@ -29,10 +31,11 @@ function App() {
         <Route path="/teams/new" element={<CreateTeamPage />} />
         <Route path="/teams" element={<TeamsPage />} />
         <Route path="/notes" element={<NotesPage />} />
-        <Route path="/profile/:id" element={<UserProfilePage />} />
+        <Route path="/profile/" element={<UserProfilePage />} />
         <Route path="/sign-in" element={<SignInPage />} />
         <Route path="/sign-up" element={<SignUpPage />} />
       </Routes>
+      <Toaster position="bottom-right" />
     </div>
   );
 }
@@ -40,7 +43,9 @@ function App() {
 const AppWrapper = () => {
   return (
     <Router>
-      <App />
+      <UserContextProvider>
+        <App />
+      </UserContextProvider>
     </Router>
   );
 };

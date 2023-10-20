@@ -2,8 +2,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { SignUpSchema } from "../../lib/validations";
 import { z } from "zod";
+import { signUp } from "../../lib/api/user.api";
+import { useUserContext } from "../../contexts/user-context";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const SignUpForm = () => {
+  const navigate = useNavigate();
+  const { setUser } = useUserContext();
+
   const {
     register,
     handleSubmit,
@@ -13,13 +20,25 @@ const SignUpForm = () => {
   });
 
   const onSubmit = async (data: z.infer<typeof SignUpSchema>) => {
-    console.log({ data });
+    const res = await signUp({
+      email: data.email,
+      username: data.username,
+      password: data.password,
+    });
+    if (res.errors.length) {
+      res.errors.forEach((error) => {
+        toast.error(error);
+      });
+      return;
+    }
+    setUser({ ...res.user, token: res.token });
+    toast.success("User created successfully!");
+    navigate("/");
   };
 
-  console.log(errors);
   return (
     <div>
-      <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
+      <form className="flex flex-col gap-3" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col">
           <label htmlFor="email" className="text-gray-300 font-medium mb-1">
             Email
@@ -31,6 +50,9 @@ const SignUpForm = () => {
             className="text-white bg-custom-2 p-1.5 border-none outline-none focus:ring-0"
             {...register("email", { required: true })}
           />
+          <span className="text-sm font-medium text-red-500 mt-1 ml-1">
+            {errors.email?.message}
+          </span>
         </div>
         <div className="flex flex-col">
           <label htmlFor="username" className="text-gray-300 font-medium mb-1">
@@ -43,6 +65,9 @@ const SignUpForm = () => {
             className="text-white bg-custom-2 p-1.5 border-none outline-none focus:ring-0"
             {...register("username", { required: true })}
           />
+          <span className="text-sm font-medium text-red-500 mt-1 ml-1">
+            {errors.username?.message}
+          </span>
         </div>
         <div className="flex flex-col">
           <label htmlFor="password" className="text-gray-300 font-medium mb-1">
@@ -55,6 +80,9 @@ const SignUpForm = () => {
             className="text-white bg-custom-2 p-1.5 border-none outline-none focus:ring-0"
             {...register("password", { required: true })}
           />
+          <span className="text-sm font-medium text-red-500 mt-1 ml-1">
+            {errors.password?.message}
+          </span>
         </div>
         <div className="flex flex-col">
           <label
@@ -70,6 +98,9 @@ const SignUpForm = () => {
             className="text-white bg-custom-2 p-1.5 border-none outline-none focus:ring-0"
             {...register("confirmation", { required: true })}
           />
+          <span className="text-sm font-medium text-red-500 mt-1 ml-1">
+            {errors.confirmation?.message}
+          </span>
         </div>
         <button className="w-2/3 py-1.5 px-3 mt-2 bg-custom-4 font-bold text-lg mx-auto rounded-sm transition-opacity hover:opacity-80">
           Submit

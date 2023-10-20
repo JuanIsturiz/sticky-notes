@@ -1,10 +1,11 @@
 import { User2, Users2, LogIn } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { useUserContext } from "../contexts/user-context";
 
 const TopBar = () => {
   const navigate = useNavigate();
-  const user = false;
+  const { user } = useUserContext();
   return (
     <div className="flex items-center justify-between py-2 px-8 bg-custom-2">
       <div className="text-white text-xl font-medium transition-transform hover:translate-x-1">
@@ -34,7 +35,7 @@ const TopBar = () => {
             className="cursor-pointer flex items-center gap-1 py-1 px-2 transition-colors rounded-sm hover:bg-custom-2"
           >
             <User2 color="#d1d5db" size={20} />
-            <p>Profile</p>
+            <p>{user.username}</p>
           </div>
         )}
       </div>
