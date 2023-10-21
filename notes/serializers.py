@@ -1,6 +1,12 @@
 from rest_framework.serializers import ModelSerializer
-from .models import Team, Note
+from .models import Profile, Team, Note
 from django.contrib.auth.models import User
+
+
+class ProfileSerializer(ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = "__all__"
 
 
 class UserSerializer(ModelSerializer):

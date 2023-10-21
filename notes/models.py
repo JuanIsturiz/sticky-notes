@@ -3,8 +3,18 @@ from django.contrib.auth.models import User
 
 
 # Create your models here.
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
+    image = models.TextField(blank=True)
+    bio = models.TextField(max_length=200, blank=True)
+    is_verified = models.BooleanField(default=False)
+
+
 class Team(models.Model):
     name = models.TextField(max_length=50)
+    description = models.TextField(max_length=200, blank=True)
     created = models.DateField(auto_now_add=True)
     updated = models.DateField(auto_now=True)
     members = models.ManyToManyField(User, related_name="members", blank=True)

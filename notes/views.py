@@ -2,16 +2,26 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
-from .models import Team, Note
+from .models import Profile, Team, Note
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
-from .serializers import TeamSerializer, NoteSerializer, UserSerializer
+from .serializers import (
+    ProfileSerializer,
+    TeamSerializer,
+    NoteSerializer,
+    UserSerializer,
+)
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from django.core.mail import EmailMessage
+from uuid import uuid4 as v4
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_str
+
 
 # Create your views here.
-
-
 @api_view(["POST"])
 def signin(request):
     user = (
@@ -38,13 +48,13 @@ def signin(request):
 
 @api_view(["POST"])
 def signup(request):
-    print(request.data)
     serializer = UserSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
         user = User.objects.get(email=request.data["email"])
         user.set_password(request.data["password"])
         user.save()
+        Profile.objects.create(user=user)
         token = Token.objects.create(user=user)
         return Response(
             {
@@ -66,6 +76,52 @@ def signup(request):
                 "errors": [v[0] for k, v in serializer.errors.items()],
             }
         )
+
+
+@api_view(["POST"])
+def verify_user(request):
+    token = request.data["token"]
+    try:
+        uid = force_str(urlsafe_base64_decode(request.data["uid"]))
+        profile = Profile.objects.get(user=uid)
+        profile.is_verified = True
+        profile.save()
+        return Response({"verified": True})
+    except:
+        return Response({"verified": False})
+
+
+@api_view(["POST"])
+def send_verification_email(request):
+    user = request.data["user"]
+    token = request.data["token"]
+    mail_subject = "Acticate your account!"
+    uid = urlsafe_base64_encode(force_bytes(user["id"]))
+    path = "http://localhost:5173/verify"
+
+    message = render_to_string(
+        template_name="notes/email_verification.html",
+        context={
+            "user": user["username"],
+            "path": path,
+            "q": f"{uid}~{token}",
+            "protocol": "https" if request.is_secure() else "http",
+        },
+    )
+    html = strip_tags(message)
+    email = EmailMessage(mail_subject, html, to=[user["email"]])
+    if email.send():
+        return Response({"sent": True})
+    else:
+        return Response({"sent": False})
+
+
+@api_view(["GET"])
+def get_profile(request, pk):
+    user = User.objects.get(id=pk)
+    profile = user.profile
+    serializer = ProfileSerializer(instance=profile)
+    return Response({"profile": serializer.data})
 
 
 @api_view(["POST"])

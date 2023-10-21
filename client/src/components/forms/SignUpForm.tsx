@@ -33,7 +33,7 @@ const SignUpForm = () => {
     }
     setUser({ ...res.user, token: res.token });
     toast.success("User created successfully!");
-    navigate("/");
+    navigate("/verify");
   };
 
   return (

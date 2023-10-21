@@ -16,6 +16,7 @@ import SignInPage from "./pages/SignInPage";
 import SignUpPage from "./pages/SignUpPage";
 import UserContextProvider from "./contexts/user-context";
 import { Toaster } from "react-hot-toast";
+import VerifyEmailPage from "./pages/VerifyEmailPage";
 
 function App() {
   const { pathname } = useLocation();
@@ -34,6 +35,7 @@ function App() {
         <Route path="/profile/" element={<UserProfilePage />} />
         <Route path="/sign-in" element={<SignInPage />} />
         <Route path="/sign-up" element={<SignUpPage />} />
+        <Route path="/verify" element={<VerifyEmailPage />} />
       </Routes>
       <Toaster position="bottom-right" />
     </div>
