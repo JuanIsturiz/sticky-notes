@@ -1,5 +1,5 @@
 import { useUserContext } from "../contexts/user-context";
-import { signOut } from "../lib/api/user.api";
+import { signOut } from "../api/user.api";
 import toast from "react-hot-toast";
 const UserProfilePage = () => {
   const { user, setUser } = useUserContext();

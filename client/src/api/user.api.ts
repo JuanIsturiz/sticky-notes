@@ -19,9 +19,13 @@ interface SignResponse<E> {
 }
 
 interface Profile {
+  id: number;
+  first_name: string;
+  last_name: string;
   image: string;
   bio: string;
   is_verified: boolean;
+  user: number;
 }
 
 export const signIn = async (info: { username: string; password: string }) => {
@@ -65,5 +69,19 @@ export const verifyUser = async (info: { uid: string; token: string }) => {
 
 export const getProfile = async (id: string) => {
   const { data } = await userAPI.get<{ profile: Profile }>(`/profile/${id}`);
+  return data;
+};
+
+export const updateProfile = async (info: {
+  id: string;
+  first_name: string;
+  last_name: string;
+  image?: string;
+  bio?: string;
+}) => {
+  const { data } = await userAPI.put<{ profile: Profile; updated: boolean }>(
+    `/profile/${info.id}/update`,
+    info
+  );
   return data;
 };

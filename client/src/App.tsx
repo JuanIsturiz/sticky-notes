@@ -17,25 +17,35 @@ import SignUpPage from "./pages/SignUpPage";
 import UserContextProvider from "./contexts/user-context";
 import { Toaster } from "react-hot-toast";
 import VerifyEmailPage from "./pages/VerifyEmailPage";
+import OnboardingPage from "./pages/OnboardingPage";
 
 function App() {
   const { pathname } = useLocation();
   const sideBarCondition =
-    pathname !== "/" && pathname !== "/sign-in" && pathname !== "/sign-up";
+    pathname !== "/" &&
+    pathname !== "/sign-in" &&
+    pathname !== "/sign-up" &&
+    pathname !== "/onboarding";
   return (
     <div className="">
       <TopBar />
       {sideBarCondition && <SideBar />}
       <Routes>
+        {/* Root Routes */}
         <Route index path="/" element={<HomePage />} />
-        <Route path="/note/:id" element={<NoteWizardPage />} />
-        <Route path="/teams/new" element={<CreateTeamPage />} />
-        <Route path="/teams" element={<TeamsPage />} />
+        {/* Note Routes */}
         <Route path="/notes" element={<NotesPage />} />
-        <Route path="/profile/" element={<UserProfilePage />} />
+        <Route path="/note/:id" element={<NoteWizardPage />} />
+        {/* Team Routes */}
+        <Route path="/teams" element={<TeamsPage />} />
+        <Route path="/teams/new" element={<CreateTeamPage />} />
+        {/* Auth Routes */}
         <Route path="/sign-in" element={<SignInPage />} />
         <Route path="/sign-up" element={<SignUpPage />} />
         <Route path="/verify" element={<VerifyEmailPage />} />
+        <Route path="/onboarding" element={<OnboardingPage />} />
+        {/* User Routes */}
+        <Route path="/profile" element={<UserProfilePage />} />
       </Routes>
       <Toaster position="bottom-right" />
     </div>

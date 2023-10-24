@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { SignUpSchema } from "../../lib/validations";
 import { z } from "zod";
-import { signUp } from "../../lib/api/user.api";
+import { signUp } from "../../api/user.api";
 import { useUserContext } from "../../contexts/user-context";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -45,7 +45,7 @@ const SignUpForm = () => {
           </label>
           <input
             id="email"
-            type="text"
+            type="email"
             placeholder="johndoe@mail.com"
             className="text-white bg-custom-2 p-1.5 border-none outline-none focus:ring-0"
             {...register("email", { required: true })}

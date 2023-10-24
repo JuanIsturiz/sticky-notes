@@ -21,13 +21,9 @@ export const SignUpSchema = z
     path: ["confirmation"],
   });
 
-export const OnboardingSchema = z.object({
-  username: z
-    .string()
-    .min(1)
-    .max(20)
-    .refine((s) => !s.includes(" "), "No Spaces!"),
-  name: z.string().optional(),
-  image: z.string().url().optional(),
+export const UserProfileSchema = z.object({
+  first_name: z.string().min(1),
+  last_name: z.string().min(1),
+  image: z.any().optional(),
   bio: z.string().optional(),
 });

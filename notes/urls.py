@@ -8,5 +8,6 @@ urlpatterns = [
     path("auth/send-email", views.send_verification_email, name="send-email"),
     path("auth/verify-user", views.verify_user, name="verify-user"),
     path("auth/profile/<pk>", views.get_profile, name="get-profile"),
+    path("auth/profile/<pk>/update", views.update_profile, name="update-profile"),
     path("test/", views.testView, name="test"),
 ]

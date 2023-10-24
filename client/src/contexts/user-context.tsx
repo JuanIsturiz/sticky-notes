@@ -6,7 +6,7 @@ import React, {
   useEffect,
 } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { getProfile } from "../lib/api/user.api";
+import { getProfile } from "../api/user.api";
 
 interface User {
   id: string;
@@ -15,10 +15,21 @@ interface User {
   token: string;
 }
 
+interface Profile {
+  id: number;
+  first_name: string;
+  last_name: string;
+  image: string;
+  bio: string;
+  is_verified: boolean;
+  user: number;
+}
+
 interface IUserContext {
   user: User | null;
-  profile: any | null;
+  profile: Profile | null;
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
+  setProfile: React.Dispatch<React.SetStateAction<any | null>>;
 }
 
 const UserContext = createContext<IUserContext | null>(null);
@@ -54,7 +65,7 @@ export default function UserContextProvider({
   }, [user]);
 
   return (
-    <UserContext.Provider value={{ user, profile, setUser }}>
+    <UserContext.Provider value={{ user, profile, setUser, setProfile }}>
       {children}
     </UserContext.Provider>
   );

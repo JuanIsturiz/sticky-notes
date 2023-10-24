@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { SignInSchema } from "../../lib/validations";
 import { z } from "zod";
 import toast from "react-hot-toast";
-import { signIn } from "../../lib/api/user.api";
+import { signIn } from "../../api/user.api";
 import { useNavigate } from "react-router-dom";
 const SignInForm = () => {
   const navigate = useNavigate();

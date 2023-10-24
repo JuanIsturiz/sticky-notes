@@ -124,6 +124,18 @@ def get_profile(request, pk):
     return Response({"profile": serializer.data})
 
 
+@api_view(["PUT"])
+def update_profile(request, pk):
+    user = User.objects.get(id=pk)
+    profile = user.profile
+    serializer = ProfileSerializer(instance=profile, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response({"profile": serializer.data, "updated": True})
+    else:
+        return Response({"profile": None, "updated": False})
+
+
 @api_view(["POST"])
 def signout(request):
     try:
