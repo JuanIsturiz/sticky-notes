@@ -22,7 +22,10 @@ export interface Note {
   author: number;
   team: string | number;
   private: boolean;
-  last_user: number | string;
-  created: Date;
-  updated: Date;
+  last_user: {
+    id: string | number;
+    username: string;
+  };
+  created: String;
+  updated: String;
 }

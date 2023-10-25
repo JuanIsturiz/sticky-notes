@@ -30,8 +30,12 @@ export const UserProfileSchema = z.object({
 });
 
 // Note Validations
-
 export const NewNoteSchema = z.object({
   body: z.string(),
   private: z.boolean().default(false),
+});
+
+// Team Validations
+export const TeamSearchSchema = z.object({
+  query: z.string(),
 });

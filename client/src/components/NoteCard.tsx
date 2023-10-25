@@ -5,6 +5,39 @@ interface NoteCardProps {
   note: Note;
 }
 
+const formatNote = (body: string) => {
+  if (body.includes("\n")) {
+    const firstBreakIdx = body.indexOf("\n");
+
+    const title =
+      body.substring(0, firstBreakIdx).length > 25
+        ? `${body.substring(0, firstBreakIdx).substring(0, 25)}...`
+        : body.substring(0, firstBreakIdx);
+
+    const description =
+      body.substring(firstBreakIdx, body.length).length > 165
+        ? `${body.substring(firstBreakIdx, body.length).substring(0, 165)}...`
+        : body.substring(firstBreakIdx, body.length);
+
+    return {
+      title,
+      description,
+    };
+  } else {
+    if (body.length > 165) {
+      return {
+        title: "",
+        description: `${body.substring(0, 165)}...`,
+      };
+    } else {
+      return {
+        title: "",
+        description: body.substring(0, 165),
+      };
+    }
+  }
+};
+
 const NoteCard: React.FC<NoteCardProps> = ({ note }) => {
   const navigate = useNavigate();
   const {
@@ -14,12 +47,31 @@ const NoteCard: React.FC<NoteCardProps> = ({ note }) => {
     created,
     last_user,
     private: read_only,
-    team,
     updated,
   } = note;
+
+  const { title, description } = formatNote(body);
+
   return (
-    <div className="border h-56" onClick={() => navigate(`/notes/${id}`)}>
-      {body}
+    <div
+      className="cursor-pointer h-72 w-72 bg-custom-1 border border-custom-2 p-2 flex flex-col justify-between shadow-md shadow-custom-2 transition-transform hover:scale-95"
+      onClick={() => navigate(`/notes/${id}`)}
+    >
+      <div>
+        <h5 className="text-lg font-medium text-custom-5">{title}</h5>
+        <p className="text-custom-4">{description}</p>
+      </div>
+      <div className="border-t border-t-custom-3 pt-1.5 px-0.5 flex justify-between items-center">
+        <p className="text-sm px-1 py-0.5 bg-custom-2 font-medium text-custom-5 rounded-sm">
+          {read_only ? "Read Only" : "Public"}
+        </p>
+        <p className="text-sm font-medium text-custom-5">
+          @{last_user.username}
+        </p>
+        <p className="text-sm font-medium text-custom-5">
+          {updated.substring(5)}
+        </p>
+      </div>
     </div>
   );
 };

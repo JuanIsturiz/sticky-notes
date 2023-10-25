@@ -149,19 +149,41 @@ def signout(request):
         return Response({"ok": False})
 
 
-# NOTE VIEWS
+# NOTES VIEWS
 @api_view(["GET"])
 def get_user_notes(request, pk):
     queryset = Note.objects.filter(author=pk)
-    serializer = NoteSerializer(queryset, many=True)
-    return Response({"notes": serializer.data})
+    note_serializer = NoteSerializer(queryset, many=True)
+    notes = []
+    for note in note_serializer.data:
+        user = User.objects.get(pk=pk)
+        user_serializer = UserSerializer(instance=user)
+        notes.append(
+            {
+                **note,
+                "last_user": {
+                    "id": user_serializer.data["id"],
+                    "username": user_serializer.data["username"],
+                },
+            }
+        )
+
+    return Response({"notes": notes})
 
 
 @api_view(["GET"])
 def get_single_note(request, pk):
     queryset = Note.objects.get(id=pk)
-    serializer = NoteSerializer(instance=queryset)
-    return Response({"note": serializer.data})
+    user_serializer = UserSerializer(instance=queryset.last_user)
+    note_serializer = NoteSerializer(instance=queryset)
+    note = {
+        **note_serializer.data,
+        "last_user": {
+            "id": user_serializer.data["id"],
+            "username": user_serializer.data["username"],
+        },
+    }
+    return Response({"note": note})
 
 
 @api_view(["POST"])

@@ -8,6 +8,7 @@ const VerifyEmailPage = () => {
   const navigate = useNavigate();
   const { user, profile } = useUserContext();
   const [search, _] = useSearchParams();
+
   useEffect(() => {
     const uid = search.get("q")?.split("~")[0];
     const token = search.get("q")?.split("~")[1];

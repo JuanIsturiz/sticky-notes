@@ -29,7 +29,7 @@ function App() {
   return (
     <div className="">
       <TopBar />
-      {sideBarCondition && <SideBar />}
+      {/* {sideBarCondition && <SideBar />} */}
       <Routes>
         {/* Root Routes */}
         <Route index path="/" element={<HomePage />} />
