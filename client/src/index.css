@@ -4,6 +4,7 @@
 @tailwind components;
 @tailwind utilities;
 
+*::-webkit-scrollbar,
 :root::-webkit-scrollbar {
   visibility: hidden;
 }

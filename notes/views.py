@@ -22,6 +22,9 @@ from django.utils.encoding import force_bytes, force_str
 
 
 # Create your views here.
+
+
+# AUTH VIEWS
 @api_view(["POST"])
 def signin(request):
     user = (
@@ -144,6 +147,52 @@ def signout(request):
         return Response({"ok": True})
     except Token.DoesNotExist:
         return Response({"ok": False})
+
+
+# NOTE VIEWS
+@api_view(["GET"])
+def get_user_notes(request, pk):
+    queryset = Note.objects.filter(author=pk)
+    serializer = NoteSerializer(queryset, many=True)
+    return Response({"notes": serializer.data})
+
+
+@api_view(["GET"])
+def get_single_note(request, pk):
+    queryset = Note.objects.get(id=pk)
+    serializer = NoteSerializer(instance=queryset)
+    return Response({"note": serializer.data})
+
+
+@api_view(["POST"])
+def create_note(request):
+    serializer = NoteSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response({"created": True})
+    else:
+        return Response({"created": False})
+
+
+@api_view(["PUT"])
+def update_note(request, pk):
+    note = Note.objects.get(id=pk)
+    serializer = NoteSerializer(note, data=request.data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response({"updated": True})
+    else:
+        return Response({"updated": False})
+
+
+@api_view(["DELETE"])
+def delete_note(request, pk):
+    note = Note.objects.get(id=pk)
+    if note:
+        note.delete()
+        return Response({"deleted": True})
+    else:
+        return Response({"deleted": False})
 
 
 @api_view(["GET"])

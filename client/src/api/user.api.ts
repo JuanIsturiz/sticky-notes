@@ -1,31 +1,14 @@
 import axios from "axios";
+import { Profile, Token, User } from "../types";
 
 const userAPI = axios.create({
   baseURL: "http://localhost:8000/auth",
 });
 
-interface User {
-  id: string;
-  username: string;
-  email: string;
-}
-
-type Token = string;
-
 interface SignResponse<E> {
   user: User;
   token: Token;
   errors: E;
-}
-
-interface Profile {
-  id: number;
-  first_name: string;
-  last_name: string;
-  image: string;
-  bio: string;
-  is_verified: boolean;
-  user: number;
 }
 
 export const signIn = async (info: { username: string; password: string }) => {

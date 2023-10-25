@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    #   AUTH URLS
     path("auth/sign-up", views.signup, name="sign-up"),
     path("auth/sign-in", views.signin, name="sign-in"),
     path("auth/sign-out", views.signout, name="sign-out"),
@@ -9,5 +10,11 @@ urlpatterns = [
     path("auth/verify-user", views.verify_user, name="verify-user"),
     path("auth/profile/<pk>", views.get_profile, name="get-profile"),
     path("auth/profile/<pk>/update", views.update_profile, name="update-profile"),
+    #   NOTES URLS
+    path("notes/<pk>/user", views.get_user_notes, name="user-notes"),
+    path("notes/new", views.create_note, name="add-note"),
+    path("notes/<pk>", views.get_single_note, name="get-note"),
+    path("notes/<pk>/update", views.update_note, name="update-note"),
+    path("notes/<pk>/delete", views.delete_note, name="delete-note"),
     path("test/", views.testView, name="test"),
 ]

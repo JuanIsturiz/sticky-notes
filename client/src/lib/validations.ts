@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+// User Validations
 export const SignInSchema = z.object({
   username: z.string().min(4),
   password: z.string().min(8),
@@ -26,4 +27,11 @@ export const UserProfileSchema = z.object({
   last_name: z.string().min(1),
   image: z.any().optional(),
   bio: z.string().optional(),
+});
+
+// Note Validations
+
+export const NewNoteSchema = z.object({
+  body: z.string(),
+  private: z.boolean().default(false),
 });

@@ -35,7 +35,8 @@ function App() {
         <Route index path="/" element={<HomePage />} />
         {/* Note Routes */}
         <Route path="/notes" element={<NotesPage />} />
-        <Route path="/note/:id" element={<NoteWizardPage />} />
+        <Route path="/notes/:id" element={<NoteWizardPage />} />
+        <Route path="/notes/new" element={<NoteWizardPage />} />
         {/* Team Routes */}
         <Route path="/teams" element={<TeamsPage />} />
         <Route path="/teams/new" element={<CreateTeamPage />} />

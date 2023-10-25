@@ -37,7 +37,7 @@ class Team(models.Model):
 class Note(models.Model):
     body = models.TextField(max_length=1000)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="author")
-    team = models.ForeignKey(Team, on_delete=models.CASCADE, blank=True)
+    team = models.ForeignKey(Team, on_delete=models.CASCADE, null=True, blank=True)
     private = models.BooleanField(default=True)
     last_user = models.ForeignKey(
         User, null=True, on_delete=models.SET_NULL, related_name="last_user"
@@ -46,7 +46,7 @@ class Note(models.Model):
     updated = models.DateField(auto_now=True)
 
     def __str__(self):
-        return self.body[:50]
+        return f"{self.pk} - {self.body[:25]}"
 
     class Meta:
         ordering = ["-updated"]

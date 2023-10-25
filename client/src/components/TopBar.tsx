@@ -1,4 +1,4 @@
-import { User2, Users2, LogIn } from "lucide-react";
+import { User2, Users2, LogIn, Folders } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useUserContext } from "../contexts/user-context";
@@ -13,7 +13,14 @@ const TopBar = () => {
           <h1>Sticky Notes</h1>
         </Link>
       </div>
-      <div className="text-lg text-gray-300 flex gap-8 font-medium">
+      <div className="text-lg text-gray-300 flex gap-6 font-medium">
+        <div
+          onClick={() => navigate("/notes")}
+          className="cursor-pointer flex items-center gap-1 py-1 px-2 transition-colors rounded hover:bg-custom-1"
+        >
+          <Folders color="#d1d5db" size={22} />
+          <p>My Notes</p>
+        </div>
         <div
           onClick={() => navigate("/teams")}
           className="cursor-pointer flex items-center gap-1 py-1 px-2 transition-colors rounded hover:bg-custom-1"
