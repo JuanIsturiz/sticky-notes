@@ -16,10 +16,9 @@ from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.core.mail import EmailMessage
-from uuid import uuid4 as v4
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
-
+from django.contrib.auth.hashers import make_password, check_password
 
 # Create your views here.
 
@@ -221,7 +220,7 @@ def delete_note(request, pk):
 @api_view(["GET"])
 def get_teams(request):
     q = request.query_params.get("q")
-    teams = Team.objects.filter(team__name__icontains=q)
+    teams = Team.objects.filter(name__icontains=q)
     serializer = TeamSerializer(instance=teams, many=True)
     return Response({"teams": serializer.data})
 
@@ -229,13 +228,43 @@ def get_teams(request):
 @api_view(["GET"])
 def get_single_team(request, pk):
     team = Team.objects.get(id=pk)
+    users_serializer = UserSerializer(instance=team.members.all(), many=True)
     serializer = TeamSerializer(instance=team)
-    return Response({"team": serializer.data})
+    members = list(
+        map(
+            lambda x: {
+                "id": x["id"],
+                "username": x["username"],
+            },
+            users_serializer.data,
+        ),
+    )
+
+    notes = Note.objects.filter(team=pk)
+    notes_serializer = NoteSerializer(instance=notes, many=True)
+    notes = []
+    for note in notes_serializer.data:
+        user = User.objects.get(pk=note["author"])
+        user_serializer = UserSerializer(instance=user)
+        notes.append(
+            {
+                **note,
+                "last_user": {
+                    "id": user_serializer.data["id"],
+                    "username": user_serializer.data["username"],
+                },
+            }
+        )
+    return Response({"team": {**serializer.data, "members": members, "notes": notes}})
 
 
 @api_view(["POST"])
 def create_team(request):
     serializer = TeamSerializer(data=request.data)
+    request.data["password"] = (
+        make_password(request.data["password"]) if "password" in request.data else None
+    )
+    request.data["members"] = [request.data["admin"]]
     if serializer.is_valid():
         serializer.save()
         return Response({"created": True})
@@ -246,6 +275,8 @@ def create_team(request):
 @api_view(["PUT"])
 def update_team(request, pk):
     team = Team.objects.get(id=pk)
+    if "password" in request.data:
+        request.data["password"] = make_password(request.data["password"])
     serializer = TeamSerializer(team, data=request.data, partial=True)
     if serializer.is_valid():
         serializer.save()
@@ -255,8 +286,14 @@ def update_team(request, pk):
 
 
 @api_view(["PUT"])
-def team_action(request):
-    pass
+def team_action(request, team_id):
+    user_id = request.data["userId"]
+    team = Team.objects.get(pk=team_id)
+    if request.data["action"] == "join":
+        team.members.add(user_id)
+    else:
+        team.members.filter(pk=user_id).delete()
+    return Response({"success": True})
 
 
 @api_view(["DELETE"])

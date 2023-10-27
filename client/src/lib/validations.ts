@@ -40,8 +40,18 @@ export const TeamSearchSchema = z.object({
   query: z.string(),
 });
 
-export const NewTeamSchema = z.object({
-  name: z.string().min(1),
-  description: z.string().optional(),
-  is_private: z.boolean().default(false),
-});
+export const NewTeamSchema = z
+  .object({
+    name: z
+      .string()
+      .min(1)
+      .refine((s) => !s.includes(" "), "No Spaces!"),
+    description: z.string().optional(),
+    is_private: z.boolean().default(false),
+    password: z.string().min(8).optional(),
+    confirmation: z.string().min(8).optional(),
+  })
+  .refine((data) => data.password === data.confirmation, {
+    message: "Passwords did not match!",
+    path: ["confirmation"],
+  });

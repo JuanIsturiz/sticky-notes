@@ -18,7 +18,7 @@ export const getNoteById = async (id: string) => {
 export const createNote = async (info: {
   body: string;
   author: number | string;
-  team?: number | string;
+  team: number | string | null;
   private: boolean;
   last_user: number | string;
 }) => {

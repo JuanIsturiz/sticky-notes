@@ -21,9 +21,11 @@ class Profile(models.Model):
 
 
 class Team(models.Model):
-    name = models.TextField(max_length=50)
+    name = models.TextField(max_length=50, unique=True)
+    admin = models.ForeignKey(User, on_delete=models.CASCADE, related_name="admin")
     description = models.TextField(max_length=200, blank=True)
     created = models.DateField(auto_now_add=True)
+    password = models.TextField(null=True, blank=True)
     updated = models.DateField(auto_now=True)
     members = models.ManyToManyField(User, related_name="members", blank=True)
     is_private = models.BooleanField(default=False)

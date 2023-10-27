@@ -1,20 +1,23 @@
 import { UserPlus2 } from "lucide-react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import SearchTeamForm from "../components/forms/SearchTeamForm";
 import { useEffect, useState } from "react";
 import { Team } from "../types";
 import { getTeams } from "../api/team.api";
 import TeamCard from "../components/TeamCard";
+import { useUserContext } from "../contexts/user-context";
 
 const TeamsPage = () => {
   const navigate = useNavigate();
   const [search, _] = useSearchParams();
-
+  const location = useLocation();
   const [teams, setTeams] = useState<Team[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const { user } = useUserContext();
 
   useEffect(() => {
     const q = search.get("q");
+    console.log({ q });
     const loadTeams = async () => {
       setLoading(true);
       const { teams } = await getTeams(q);
@@ -22,7 +25,7 @@ const TeamsPage = () => {
       setLoading(false);
     };
     loadTeams();
-  }, []);
+  }, [location]);
 
   return (
     <div className="p-2">
@@ -44,9 +47,19 @@ const TeamsPage = () => {
           </div>
         </div>
       </div>
-      <div>
-        <TeamCard />
-      </div>
+      {loading ? (
+        <div className="p-8">
+          <p className="text-2xl text-custom-5 text-center font-medium animate-pulse">
+            Loading Teams...
+          </p>
+        </div>
+      ) : (
+        <div className="max-w-xl mx-auto p-2">
+          {teams.map((t) => (
+            <TeamCard key={t.id} team={t} userId={user?.id ?? ""} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };

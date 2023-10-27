@@ -3,7 +3,7 @@ import { NewNoteSchema } from "../lib/validations";
 import { useForm } from "react-hook-form";
 import z from "zod";
 import { ChevronLeft } from "lucide-react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import {
   createNote,
   deleteNote,
@@ -15,9 +15,12 @@ import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
 
 const NoteWizardPage = () => {
+  const [search, _] = useSearchParams();
+
   const { user } = useUserContext();
   const navigate = useNavigate();
   const { id } = useParams();
+  const to = search.get("team") ? `/teams/${search.get("team")}` : "/notes";
 
   const { register, handleSubmit, setValue } = useForm<
     z.infer<typeof NewNoteSchema>
@@ -59,7 +62,7 @@ const NoteWizardPage = () => {
       (!data.body && !id) ||
       (initial?.body === data.body && initial?.private === data.private)
     ) {
-      navigate("/notes");
+      navigate(to);
       return;
     }
 
@@ -69,7 +72,7 @@ const NoteWizardPage = () => {
       const res = await deleteNote(id);
       if (res.deleted) {
         toast.success("Note Deleted Successfully!");
-        navigate("/notes");
+        navigate(to);
       } else {
         toast.error("Failed to Delete Note\nPlease Try Again");
       }
@@ -80,10 +83,11 @@ const NoteWizardPage = () => {
         ...data,
         author: user?.id ?? "",
         last_user: user?.id ?? "",
+        team: search.get("team") ?? null,
       });
       if (res.created) {
         toast.success("New Note Added Successfully!");
-        navigate("/notes");
+        navigate(to);
       } else {
         toast.error("Failed to Add New Note\nPlease Try Again");
       }
@@ -97,7 +101,7 @@ const NoteWizardPage = () => {
       });
       if (res.updated) {
         toast.success("Note Updated Successfully!");
-        navigate("/notes");
+        navigate(to);
       } else {
         toast.error("Failed to Update Note\nPlease Try Again");
       }

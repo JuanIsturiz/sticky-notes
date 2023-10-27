@@ -32,10 +32,12 @@ export interface Note {
 
 export interface Team {
   id: string;
+  admin: string | number;
   name: string;
   description: string;
   created: string;
   updated: string;
   is_private: boolean;
-  members: string[];
+  members: { id: string; username: string }[];
+  notes: Note[];
 }

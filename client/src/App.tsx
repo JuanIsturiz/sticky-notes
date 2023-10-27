@@ -18,6 +18,7 @@ import UserContextProvider from "./contexts/user-context";
 import { Toaster } from "react-hot-toast";
 import VerifyEmailPage from "./pages/VerifyEmailPage";
 import OnboardingPage from "./pages/OnboardingPage";
+import TeamPage from "./pages/TeamPage";
 
 function App() {
   const { pathname } = useLocation();
@@ -40,6 +41,8 @@ function App() {
         {/* Team Routes */}
         <Route path="/teams" element={<TeamsPage />} />
         <Route path="/teams/new" element={<CreateTeamPage />} />
+        <Route path="/teams/:id" element={<TeamPage />} />
+        <Route path="/teams/:id/update" element={<CreateTeamPage />} />
         {/* Auth Routes */}
         <Route path="/sign-in" element={<SignInPage />} />
         <Route path="/sign-up" element={<SignUpPage />} />

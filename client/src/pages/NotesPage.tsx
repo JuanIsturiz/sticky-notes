@@ -47,7 +47,7 @@ const NotesPage = () => {
       {!loading ? (
         <div className="grid grid-cols-4 gap-4 py-2 px-10 place-items-center">
           {notes.map((note) => (
-            <NoteCard key={note.id} note={note} />
+            <NoteCard key={note.id} note={note} redirect={`/${note.id}`} />
           ))}
         </div>
       ) : (

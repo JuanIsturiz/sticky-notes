@@ -10,30 +10,49 @@ export const getTeams = async (q: string | null) => {
   return data;
 };
 
-export const getTeam = async (id: string) => {
+export const getTeamById = async (id: string) => {
   const { data } = await teamAPI.get<{ team: Team }>(`/${id}`);
   return data;
 };
 
 export const createTeam = async (info: {
+  admin: string | number;
   name: string;
-  description: string;
-  is_private: string;
+  description: string | null;
+  is_private: boolean;
+  password: string | null;
 }) => {
-  const { data } = await teamAPI.post<{ created: boolean }>("/", info);
+  const { data } = await teamAPI.post<{ created: boolean }>("/new", info);
   return data;
 };
 
 export const updateTeam = async (info: {
+  id: string | number;
   name: string;
-  description: string;
-  is_private: string;
+  description: string | null;
+  is_private: boolean;
+  password: string | null;
 }) => {
-  const { data } = await teamAPI.put<{ updated: boolean }>("/", info);
+  const { data } = await teamAPI.put<{ updated: boolean }>(
+    `/${info.id}/update`,
+    info
+  );
   return data;
 };
 
 export const deleteTeam = async (id: string) => {
-  const { data } = await teamAPI.delete<{ deleted: boolean }>(`/${id}`);
+  const { data } = await teamAPI.delete<{ deleted: boolean }>(`/${id}/delete`);
+  return data;
+};
+
+export const teamAction = async (info: {
+  teamId: string;
+  userId: string;
+  action: "join" | "leave";
+}) => {
+  const { data } = await teamAPI.put<{ success: boolean }>(
+    `/${info.teamId}/subscription`,
+    info
+  );
   return data;
 };

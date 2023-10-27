@@ -3,6 +3,7 @@ import { Note } from "../types";
 
 interface NoteCardProps {
   note: Note;
+  redirect: string;
 }
 
 const formatNote = (body: string) => {
@@ -38,7 +39,7 @@ const formatNote = (body: string) => {
   }
 };
 
-const NoteCard: React.FC<NoteCardProps> = ({ note }) => {
+const NoteCard: React.FC<NoteCardProps> = ({ note, redirect }) => {
   const navigate = useNavigate();
   const {
     id,
@@ -55,7 +56,7 @@ const NoteCard: React.FC<NoteCardProps> = ({ note }) => {
   return (
     <div
       className="cursor-pointer h-72 w-72 bg-custom-1 border border-custom-2 p-2 flex flex-col justify-between shadow-md shadow-custom-2 transition-transform hover:scale-95"
-      onClick={() => navigate(`/notes/${id}`)}
+      onClick={() => navigate(`/notes${redirect}`)}
     >
       <div>
         <h5 className="text-lg font-medium text-custom-5">{title}</h5>
