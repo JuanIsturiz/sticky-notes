@@ -29,3 +29,13 @@ export interface Note {
   created: String;
   updated: String;
 }
+
+export interface Team {
+  id: string;
+  name: string;
+  description: string;
+  created: string;
+  updated: string;
+  is_private: boolean;
+  members: string[];
+}

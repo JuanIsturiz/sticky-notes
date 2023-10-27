@@ -1,9 +1,29 @@
 import { UserPlus2 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import SearchTeamForm from "../components/forms/SearchTeamForm";
+import { useEffect, useState } from "react";
+import { Team } from "../types";
+import { getTeams } from "../api/team.api";
+import TeamCard from "../components/TeamCard";
 
 const TeamsPage = () => {
   const navigate = useNavigate();
+  const [search, _] = useSearchParams();
+
+  const [teams, setTeams] = useState<Team[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    const q = search.get("q");
+    const loadTeams = async () => {
+      setLoading(true);
+      const { teams } = await getTeams(q);
+      setTeams(teams);
+      setLoading(false);
+    };
+    loadTeams();
+  }, []);
+
   return (
     <div className="p-2">
       <div className="flex justify-end p-2 border-b border-b-custom-3">
@@ -23,6 +43,9 @@ const TeamsPage = () => {
             </p>
           </div>
         </div>
+      </div>
+      <div>
+        <TeamCard />
       </div>
     </div>
   );

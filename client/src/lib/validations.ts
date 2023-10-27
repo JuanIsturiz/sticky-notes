@@ -39,3 +39,9 @@ export const NewNoteSchema = z.object({
 export const TeamSearchSchema = z.object({
   query: z.string(),
 });
+
+export const NewTeamSchema = z.object({
+  name: z.string().min(1),
+  description: z.string().optional(),
+  is_private: z.boolean().default(false),
+});

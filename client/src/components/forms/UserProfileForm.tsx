@@ -164,7 +164,6 @@ const UserProfileForm = () => {
             {errors.bio?.message}
           </span>
         </div>
-
         <button className="w-2/3 py-1.5 px-3 mt-2 bg-custom-4 font-bold text-lg mx-auto rounded-sm transition-opacity hover:opacity-80">
           Save Changes
         </button>

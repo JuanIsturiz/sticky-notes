@@ -217,6 +217,58 @@ def delete_note(request, pk):
         return Response({"deleted": False})
 
 
+# TEAM VIEWS
+@api_view(["GET"])
+def get_teams(request):
+    q = request.query_params.get("q")
+    teams = Team.objects.filter(team__name__icontains=q)
+    serializer = TeamSerializer(instance=teams, many=True)
+    return Response({"teams": serializer.data})
+
+
+@api_view(["GET"])
+def get_single_team(request, pk):
+    team = Team.objects.get(id=pk)
+    serializer = TeamSerializer(instance=team)
+    return Response({"team": serializer.data})
+
+
+@api_view(["POST"])
+def create_team(request):
+    serializer = TeamSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response({"created": True})
+    else:
+        return Response({"created": False})
+
+
+@api_view(["PUT"])
+def update_team(request, pk):
+    team = Team.objects.get(id=pk)
+    serializer = TeamSerializer(team, data=request.data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response({"updated": True})
+    else:
+        return Response({"updated": False})
+
+
+@api_view(["PUT"])
+def team_action(request):
+    pass
+
+
+@api_view(["DELETE"])
+def delete_team(request, pk):
+    team = Team.objects.get(id=pk)
+    if team:
+        team.delete()
+        return Response({"deleted": True})
+    else:
+        return Response({"deleted": False})
+
+
 @api_view(["GET"])
 def testView(request):
     team = Team.objects.get(id=1)

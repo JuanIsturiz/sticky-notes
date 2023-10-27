@@ -16,5 +16,11 @@ urlpatterns = [
     path("notes/<pk>", views.get_single_note, name="get-note"),
     path("notes/<pk>/update", views.update_note, name="update-note"),
     path("notes/<pk>/delete", views.delete_note, name="delete-note"),
+    #   TEAM URLS
+    path("teams/", views.get_teams, name="get-teams"),
+    path("teams/new", views.create_team, name="add-team"),
+    path("teams/<pk>", views.get_single_team, name="get-team"),
+    path("teams/<pk>/update", views.update_team, name="update-team"),
+    path("teams/<pk>/delete", views.delete_team, name="delete-team"),
     path("test/", views.testView, name="test"),
 ]

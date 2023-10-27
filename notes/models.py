@@ -26,6 +26,7 @@ class Team(models.Model):
     created = models.DateField(auto_now_add=True)
     updated = models.DateField(auto_now=True)
     members = models.ManyToManyField(User, related_name="members", blank=True)
+    is_private = models.BooleanField(default=False)
 
     def count_members(self):
         return self.members.count()
