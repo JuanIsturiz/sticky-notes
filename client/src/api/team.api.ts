@@ -49,8 +49,9 @@ export const teamAction = async (info: {
   teamId: string;
   userId: string;
   action: "join" | "leave";
+  password: string | null;
 }) => {
-  const { data } = await teamAPI.put<{ success: boolean }>(
+  const { data } = await teamAPI.put<{ success: boolean; message: string }>(
     `/${info.teamId}/subscription`,
     info
   );

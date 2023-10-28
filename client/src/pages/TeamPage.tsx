@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Team } from "../types";
-import { getTeamById } from "../api/team.api";
-import { StickyNote, UserCog2 } from "lucide-react";
+import { getTeamById, teamAction } from "../api/team.api";
+import { StickyNote, UserCog2, UserMinus2 } from "lucide-react";
 import { useUserContext } from "../contexts/user-context";
 import NoteCard from "../components/NoteCard";
+import toast from "react-hot-toast";
 
 const TeamPage = () => {
   const navigate = useNavigate();
@@ -19,6 +20,22 @@ const TeamPage = () => {
     };
     loadTeam();
   }, [id]);
+
+  const handleLeave = async () => {
+    const { success } = await teamAction({
+      action: "leave",
+      password: null,
+      teamId: id ?? "",
+      userId: user?.id ?? "",
+    });
+    if (success) {
+      toast.success("Team Leaved Successfully!");
+      navigate("/teams");
+    } else {
+      toast.error("Failed to Leave Team\nPlease Try Again");
+    }
+  };
+
   return (
     <div className="p-2">
       <div className="grid grid-cols-3 justify-center items-center gap-2 p-2 border-b border-b-custom-3">
@@ -35,6 +52,18 @@ const TeamPage = () => {
               onClick={() => navigate(`/teams/${id}/update`)}
             >
               <UserCog2
+                size={24}
+                color="#d1d5db"
+                className="group-hover:invert"
+              />
+            </div>
+          )}
+          {team?.admin !== user?.id && (
+            <div
+              className="group cursor-pointer flex items-center justify-center gap-1 py-1 px-2 bg-custom-3 rounded-sm transition-colors hover:bg-custom-4"
+              onClick={handleLeave}
+            >
+              <UserMinus2
                 size={24}
                 color="#d1d5db"
                 className="group-hover:invert"

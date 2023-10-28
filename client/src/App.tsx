@@ -19,6 +19,7 @@ import { Toaster } from "react-hot-toast";
 import VerifyEmailPage from "./pages/VerifyEmailPage";
 import OnboardingPage from "./pages/OnboardingPage";
 import TeamPage from "./pages/TeamPage";
+import JoinTeamPage from "./pages/JoinTeamPage";
 
 function App() {
   const { pathname } = useLocation();
@@ -43,6 +44,7 @@ function App() {
         <Route path="/teams/new" element={<CreateTeamPage />} />
         <Route path="/teams/:id" element={<TeamPage />} />
         <Route path="/teams/:id/update" element={<CreateTeamPage />} />
+        <Route path="/teams/:id/join" element={<JoinTeamPage />} />
         {/* Auth Routes */}
         <Route path="/sign-in" element={<SignInPage />} />
         <Route path="/sign-up" element={<SignUpPage />} />

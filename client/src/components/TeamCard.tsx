@@ -22,6 +22,7 @@ const TeamCard: React.FC<TeamCardProps> = ({ team, userId }) => {
       navigate(`/teams/${id}/join`);
     } else {
       const { success } = await teamAction({
+        password: null,
         teamId: id,
         userId,
         action: "join",

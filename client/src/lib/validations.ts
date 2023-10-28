@@ -55,3 +55,7 @@ export const NewTeamSchema = z
     message: "Passwords did not match!",
     path: ["confirmation"],
   });
+
+export const JoinTeamSchema = z.object({
+  password: z.string().min(8),
+});

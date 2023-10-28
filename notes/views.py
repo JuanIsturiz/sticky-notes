@@ -262,7 +262,9 @@ def get_single_team(request, pk):
 def create_team(request):
     serializer = TeamSerializer(data=request.data)
     request.data["password"] = (
-        make_password(request.data["password"]) if "password" in request.data else None
+        make_password(request.data["password"])
+        if not request.data["password"] == None
+        else None
     )
     request.data["members"] = [request.data["admin"]]
     if serializer.is_valid():
@@ -286,14 +288,28 @@ def update_team(request, pk):
 
 
 @api_view(["PUT"])
-def team_action(request, team_id):
+def team_action(request, pk):
     user_id = request.data["userId"]
-    team = Team.objects.get(pk=team_id)
+    team = Team.objects.get(id=pk)
     if request.data["action"] == "join":
-        team.members.add(user_id)
+        if not request.data["password"] == None:
+            if check_password(request.data["password"], team.password):
+                team.members.add(user_id)
+                return Response({"success": True, "message": ""})
+            else:
+                return Response(
+                    {
+                        "success": False,
+                        "message": "Invalid Credentials\nPlease Try Again",
+                    }
+                )
+        else:
+            team.members.add(user_id)
+            return Response({"success": True, "message": ""})
     else:
+        Note.objects.filter(team=pk, author=user_id).delete()
         team.members.filter(pk=user_id).delete()
-    return Response({"success": True})
+        return Response({"success": True, "message": ""})
 
 
 @api_view(["DELETE"])

@@ -54,7 +54,7 @@ const TeamsPage = () => {
           </p>
         </div>
       ) : (
-        <div className="max-w-xl mx-auto p-2">
+        <div className="max-w-xl mx-auto p-2 space-y-2">
           {teams.map((t) => (
             <TeamCard key={t.id} team={t} userId={user?.id ?? ""} />
           ))}
