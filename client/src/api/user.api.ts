@@ -68,3 +68,32 @@ export const updateProfile = async (info: {
   );
   return data;
 };
+
+interface UserInfo {
+  notes: {
+    id: number;
+    body: string;
+    private: boolean;
+    created: Date;
+    updated: Date;
+    author: number;
+    team: null;
+    last_user: number;
+  }[];
+  teams: {
+    id: number;
+    name: string;
+    description: string;
+    created: Date;
+    password: null | string;
+    updated: Date;
+    is_private: boolean;
+    admin: number;
+    members: number[];
+  }[];
+}
+
+export const getUserInfo = async (id: string) => {
+  const { data } = await userAPI.get<UserInfo>(`/profile/${id}/info`);
+  return data;
+};

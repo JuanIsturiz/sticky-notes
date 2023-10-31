@@ -26,8 +26,8 @@ export interface Note {
     id: string | number;
     username: string;
   };
-  created: String;
-  updated: String;
+  created: string;
+  updated: string;
 }
 
 export interface Team {

@@ -9,6 +9,7 @@ urlpatterns = [
     path("auth/send-email", views.send_verification_email, name="send-email"),
     path("auth/verify-user", views.verify_user, name="verify-user"),
     path("auth/profile/<pk>", views.get_profile, name="get-profile"),
+    path("auth/profile/<pk>/info", views.get_user_info, name="get-user-info"),
     path("auth/profile/<pk>/update", views.update_profile, name="update-profile"),
     #   NOTES URLS
     path("notes/<pk>/user", views.get_user_notes, name="user-notes"),

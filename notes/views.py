@@ -148,6 +148,22 @@ def signout(request):
         return Response({"ok": False})
 
 
+@api_view(["GET"])
+def get_user_info(request, pk):
+    notes = Note.objects.filter(author=pk)
+    teams = Team.objects.filter(members=pk)
+
+    note_serializer = NoteSerializer(instance=notes, many=True)
+    team_serializer = TeamSerializer(instance=teams, many=True)
+
+    return Response(
+        {
+            "notes": note_serializer.data,
+            "teams": team_serializer.data,
+        }
+    )
+
+
 # NOTES VIEWS
 @api_view(["GET"])
 def get_user_notes(request, pk):

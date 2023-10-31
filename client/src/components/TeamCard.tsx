@@ -37,7 +37,7 @@ const TeamCard: React.FC<TeamCardProps> = ({ team, userId }) => {
   };
   return (
     <div
-      className="cursor-pointer bg-custom-5 p-2 rounded-sm shadow shadow-custom-1 transition-transform hover:translate-x-2"
+      className="cursor-pointer bg-custom-4 p-4 rounded-sm shadow shadow-custom-1 transition-transform hover:translate-x-2"
       onClick={handleClick}
     >
       <div className="flex items-center justify-between">

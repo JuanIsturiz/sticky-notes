@@ -38,7 +38,7 @@ const TopBar = () => {
           </div>
         ) : (
           <div
-            onClick={() => navigate("/profile")}
+            onClick={() => navigate(`/profile/${user.id ?? ""}`)}
             className="cursor-pointer flex items-center gap-1 py-1 px-2 transition-colors rounded-sm hover:bg-custom-1"
           >
             <User2 color="#d1d5db" size={20} />

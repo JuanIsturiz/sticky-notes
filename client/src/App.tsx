@@ -1,11 +1,5 @@
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useLocation,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import TopBar from "./components/TopBar";
-import SideBar from "./components/SideBar";
 import HomePage from "./pages/HomePage";
 import NoteWizardPage from "./pages/NoteWizardPage";
 import CreateTeamPage from "./pages/CreateTeamPage";
@@ -22,16 +16,9 @@ import TeamPage from "./pages/TeamPage";
 import JoinTeamPage from "./pages/JoinTeamPage";
 
 function App() {
-  const { pathname } = useLocation();
-  const sideBarCondition =
-    pathname !== "/" &&
-    pathname !== "/sign-in" &&
-    pathname !== "/sign-up" &&
-    pathname !== "/onboarding";
   return (
     <div className="">
       <TopBar />
-      {/* {sideBarCondition && <SideBar />} */}
       <Routes>
         {/* Root Routes */}
         <Route index path="/" element={<HomePage />} />
@@ -51,7 +38,8 @@ function App() {
         <Route path="/verify" element={<VerifyEmailPage />} />
         <Route path="/onboarding" element={<OnboardingPage />} />
         {/* User Routes */}
-        <Route path="/profile" element={<UserProfilePage />} />
+        <Route path="/profile/:id" element={<UserProfilePage />} />
+        <Route path="/profile/:id/edit" element={<OnboardingPage />} />
       </Routes>
       <Toaster position="bottom-right" />
     </div>
