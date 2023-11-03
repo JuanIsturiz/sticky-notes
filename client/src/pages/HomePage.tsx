@@ -12,9 +12,9 @@ const HomePage = () => {
           A place where teams can communicate bya notes
         </p>
       </div>
-      <div className="flex items-center justify-center gap-16">
+      <div className="flex flex-col items-center justify-center gap-8 sm:flex-row lg:gap-16">
         <div
-          className="cursor-pointer w-80 h-96 flex flex-col items-center gap-4 bg-custom-1 p-4 rounded-sm shadow-lg shadow-custom-2 transition-transform hover:scale-105"
+          className="cursor-pointer w-64 sm:w-80 sm:h-96 flex flex-col items-center gap-4 bg-custom-1 p-4 rounded-sm shadow-lg shadow-custom-2 transition-transform hover:scale-105"
           onClick={() => navigate("/notes")}
         >
           <h4 className="text-2xl text-custom-4 font-medium">
@@ -23,7 +23,7 @@ const HomePage = () => {
           <img src={notes} alt="Notes Svg" />
         </div>
         <div
-          className="cursor-pointer w-80 h-96 flex flex-col items-center gap-12 bg-custom-1 p-4 rounded-sm shadow-lg shadow-custom-2 transition-transform hover:scale-105"
+          className="cursor-pointer w-64 h-80 sm:w-80 sm:h-96 flex flex-col items-center gap-12 bg-custom-1 p-4 rounded-sm shadow-lg shadow-custom-2 transition-transform hover:scale-105"
           onClick={() => navigate("/teams")}
         >
           <h4 className="text-2xl text-custom-4 font-medium">

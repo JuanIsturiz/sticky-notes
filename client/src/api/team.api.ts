@@ -50,10 +50,21 @@ export const teamAction = async (info: {
   userId: string;
   action: "join" | "leave";
   password: string | null;
+  newAdmin?: number;
 }) => {
+  const path = info.newAdmin
+    ? `/${info.teamId}/subscription?admin=${info.newAdmin}`
+    : `/${info.teamId}/subscription`;
   const { data } = await teamAPI.put<{ success: boolean; message: string }>(
-    `/${info.teamId}/subscription`,
+    path,
     info
   );
+  return data;
+};
+
+export const getMembers = async (id: string) => {
+  const { data } = await teamAPI.get<{
+    members: { id: number; username: string }[];
+  }>(`/${id}/members`);
   return data;
 };

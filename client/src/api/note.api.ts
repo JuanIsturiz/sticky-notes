@@ -12,6 +12,7 @@ export const getUserNotes = async (userId: string) => {
 
 export const getNoteById = async (id: string) => {
   const { data } = await noteAPI.get<{ note: Note }>(`/${id}`);
+  console.log({ data });
   return data;
 };
 

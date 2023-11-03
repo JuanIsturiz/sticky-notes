@@ -45,7 +45,7 @@ const NotesPage = () => {
         </div>
       </div>
       {!loading ? (
-        <div className="grid grid-cols-4 gap-4 py-2 px-10 place-items-center">
+        <div className="grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] gap-4 py-2 px-6 place-items-center">
           {notes.map((note) => (
             <NoteCard key={note.id} note={note} redirect={`/${note.id}`} />
           ))}

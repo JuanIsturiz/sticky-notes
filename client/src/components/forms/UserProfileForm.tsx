@@ -50,7 +50,7 @@ const UserProfileForm = () => {
     });
     if (res.updated) {
       setProfile(res.profile);
-      navigate("/profile");
+      navigate(`/profile/${user?.id ?? ""}`);
       toast.success("Profile Updated Successfully");
     } else {
       reset();

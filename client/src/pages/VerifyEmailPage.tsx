@@ -11,6 +11,7 @@ const VerifyEmailPage = () => {
   const [loading, setLoading] = useState(false);
   const [disabled, setDisabled] = useState({ status: false, message: "" });
 
+  console.log({ loading, disabled });
   useEffect(() => {
     setDisabled({ status: true, message: "Checking user status" });
     const uid = search.get("q")?.split("~")[0];
@@ -40,9 +41,7 @@ const VerifyEmailPage = () => {
       };
       tryVerify();
     }
-    return () => {
-      setDisabled({ status: false, message: "" });
-    };
+    setDisabled({ status: false, message: "" });
   }, [profile]);
 
   const handleMail = async () => {
@@ -84,7 +83,7 @@ const VerifyEmailPage = () => {
         onClick={handleMail}
         className="w-96 py-1.5 px-3 mt-2 bg-custom-4 font-bold text-lg mx-auto rounded-sm transition-opacity hover:opacity-80"
       >
-        {!loading && !disabled && "Verify Email"}
+        {!loading && !disabled.status && "Verify Email"}
         {loading && "Loading"}
         {disabled.status && disabled.message}
       </button>

@@ -59,3 +59,7 @@ export const NewTeamSchema = z
 export const JoinTeamSchema = z.object({
   password: z.string().min(8),
 });
+
+export const LeaveTeamSchema = z.object({
+  admin: z.number(),
+});

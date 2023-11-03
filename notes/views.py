@@ -323,8 +323,15 @@ def team_action(request, pk):
             team.members.add(user_id)
             return Response({"success": True, "message": ""})
     else:
+        new_admin = request.query_params.get("admin")
+        if not new_admin == None:
+            user = User.objects.get(pk=new_admin)
+            team.admin = user
+            team.save()
         Note.objects.filter(team=pk, author=user_id).delete()
-        team.members.filter(pk=user_id).delete()
+        team.members.remove(user_id)
+        if team.members.count() == 0:
+            team.delete()
         return Response({"success": True, "message": ""})
 
 
@@ -336,6 +343,22 @@ def delete_team(request, pk):
         return Response({"deleted": True})
     else:
         return Response({"deleted": False})
+
+
+@api_view(["GET"])
+def get_members(request, pk):
+    members_queryset = Team.objects.get(id=pk).members.all()
+    serializer = UserSerializer(instance=members_queryset, many=True)
+    members = list(
+        map(
+            lambda m: {
+                "id": m["id"],
+                "username": m["username"],
+            },
+            serializer.data,
+        )
+    )
+    return Response({"members": members})
 
 
 @api_view(["GET"])

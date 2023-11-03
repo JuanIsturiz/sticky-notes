@@ -55,7 +55,7 @@ const NoteCard: React.FC<NoteCardProps> = ({ note, redirect }) => {
 
   return (
     <div
-      className="cursor-pointer h-72 w-72 bg-custom-1 border border-custom-2 p-2 flex flex-col justify-between shadow-md shadow-custom-2 transition-transform hover:scale-95"
+      className="cursor-pointer h-80 w-80 bg-custom-1 border border-custom-2 p-2 flex flex-col justify-between shadow-md shadow-custom-2 transition-transform hover:scale-95"
       onClick={() => navigate(`/notes${redirect}`)}
     >
       <div>

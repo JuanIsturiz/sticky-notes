@@ -47,6 +47,7 @@ const JoinTeamForm: React.FC<JoinTeamFormProps> = ({ teamId, userId }) => {
           Password
         </label>
         <input
+          autoFocus
           id="password"
           type="password"
           placeholder="some-secure-password"

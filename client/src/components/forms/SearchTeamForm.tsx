@@ -18,7 +18,7 @@ const SearchTeamForm = () => {
     }
   };
   return (
-    <div className="bg-custom-3 rounded-sm px-1 w-1/2">
+    <div className="bg-custom-3 rounded-sm px-1">
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex items-center justify-between"
@@ -30,7 +30,7 @@ const SearchTeamForm = () => {
           autoComplete="off"
           {...register("query", { required: true })}
         />
-        <div className="flex items-center gap-1">
+        <div className="hidden md:flex items-center gap-1">
           <div className="w-[1px] h-8 bg-custom-4"></div>
           <button>
             <Search color="#5C8374" />

@@ -3,6 +3,7 @@ import { getUserInfo, signOut } from "../api/user.api";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { User2 } from "lucide-react";
 
 const UserProfilePage = () => {
   const { id } = useParams();
@@ -60,11 +61,15 @@ const UserProfilePage = () => {
     <div className="p-3">
       <div className="max-w-xl mx-auto p-4 mt-4 bg-custom-1 rounded-sm shadow-lg border border-gray-950 shadow-custom-1">
         <div className="flex items-center gap-6 mb-3">
-          <img
-            src={profile?.image}
-            alt="User Profile Picture"
-            className="w-32 rounded-full border-4 border-custom-3"
-          />
+          {profile?.image ? (
+            <img
+              src={profile?.image}
+              alt="User Profile Picture"
+              className="w-32 rounded-full border-4 border-custom-3"
+            />
+          ) : (
+            <User2 className="w-32 h-32" color="#5C8374" />
+          )}
           <div>
             <p className="text-3xl font-medium text-custom-5">
               {profile?.first_name} {profile?.last_name}

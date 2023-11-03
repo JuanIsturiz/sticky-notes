@@ -17,7 +17,6 @@ const TeamsPage = () => {
 
   useEffect(() => {
     const q = search.get("q");
-    console.log({ q });
     const loadTeams = async () => {
       setLoading(true);
       const { teams } = await getTeams(q);
@@ -29,22 +28,17 @@ const TeamsPage = () => {
 
   return (
     <div className="p-2">
-      <div className="flex justify-end p-2 border-b border-b-custom-3">
-        <div className="flex justify-between items-center w-2/3">
-          <SearchTeamForm />
-          <div
-            className="group cursor-pointer flex items-center gap-1 py-1 px-2 bg-custom-3 rounded-sm transition-colors hover:bg-custom-4"
-            onClick={() => navigate("/teams/new")}
-          >
-            <UserPlus2
-              size={24}
-              color="#d1d5db"
-              className="group-hover:invert"
-            />
-            <p className="text-gray-300 text-lg font-medium group-hover:invert">
-              New Team
-            </p>
-          </div>
+      <div className="grid grid-cols-2 sm:grid-cols-3 justify-center items-center p-2 border-b border-b-custom-3">
+        <div className="hidden sm:block" />
+        <SearchTeamForm />
+        <div
+          className="group cursor-pointer flex items-center gap-1 py-1 px-2 bg-custom-3 rounded-sm transition-colors place-self-end hover:bg-custom-4"
+          onClick={() => navigate("/teams/new")}
+        >
+          <UserPlus2 size={24} color="#d1d5db" className="group-hover:invert" />
+          <p className="text-gray-300 text-lg font-medium group-hover:invert">
+            New Team
+          </p>
         </div>
       </div>
       {loading ? (

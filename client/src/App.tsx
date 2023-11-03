@@ -14,6 +14,7 @@ import VerifyEmailPage from "./pages/VerifyEmailPage";
 import OnboardingPage from "./pages/OnboardingPage";
 import TeamPage from "./pages/TeamPage";
 import JoinTeamPage from "./pages/JoinTeamPage";
+import LeaveTeamPage from "./pages/LeaveTeamPage";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
         <Route path="/teams/:id" element={<TeamPage />} />
         <Route path="/teams/:id/update" element={<CreateTeamPage />} />
         <Route path="/teams/:id/join" element={<JoinTeamPage />} />
+        <Route path="/teams/:id/leave" element={<LeaveTeamPage />} />
         {/* Auth Routes */}
         <Route path="/sign-in" element={<SignInPage />} />
         <Route path="/sign-up" element={<SignUpPage />} />

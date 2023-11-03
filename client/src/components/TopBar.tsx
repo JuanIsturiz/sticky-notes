@@ -13,20 +13,20 @@ const TopBar = () => {
           <h1>Sticky Notes</h1>
         </Link>
       </div>
-      <div className="text-lg text-gray-300 flex gap-6 font-medium">
+      <div className="text-lg text-gray-300 flex gap-2 sm:gap-6 font-medium">
         <div
           onClick={() => navigate("/notes")}
           className="cursor-pointer flex items-center gap-1 py-1 px-2 transition-colors rounded hover:bg-custom-1"
         >
           <Folders color="#d1d5db" size={22} />
-          <p>My Notes</p>
+          <p className="hidden sm:block">My Notes</p>
         </div>
         <div
           onClick={() => navigate("/teams")}
           className="cursor-pointer flex items-center gap-1 py-1 px-2 transition-colors rounded hover:bg-custom-1"
         >
           <Users2 color="#d1d5db" size={22} />
-          <p>Teams</p>
+          <p className="hidden sm:block">Teams</p>
         </div>
         {!user ? (
           <div
@@ -34,7 +34,7 @@ const TopBar = () => {
             className="cursor-pointer flex items-center gap-1 py-1 px-2 transition-colors rounded hover:bg-custom-1"
           >
             <LogIn color="#d1d5db" size={20} />
-            <p>Sign In</p>
+            <p className="hidden sm:block">Sign In</p>
           </div>
         ) : (
           <div
@@ -42,7 +42,7 @@ const TopBar = () => {
             className="cursor-pointer flex items-center gap-1 py-1 px-2 transition-colors rounded-sm hover:bg-custom-1"
           >
             <User2 color="#d1d5db" size={20} />
-            <p>{user.username}</p>
+            <p className="hidden sm:block">{user.username}</p>
           </div>
         )}
       </div>
